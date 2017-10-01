@@ -1,19 +1,15 @@
 var player = new Player('ad');
 
-window.onload = function init() {
-	canvas.width = window.innerWidth;
-	canvas.height = window.innerHeight;
-	loop();
-}
+requestAnimationFrame(loop);
 
 function loop() {
-	update();
-	draw();
-	requestAnimationFrame(loop);
-}
-
-function update() {
+	// update
 	player.update();
+
+	// draw
+	draw();
+
+	requestAnimationFrame(loop);
 }
 
 window.addEventListener("keydown", function(event) {

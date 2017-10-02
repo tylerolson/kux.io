@@ -1,13 +1,22 @@
-var servers = ["localhost", "127.0.0.1:3000"];
+var socket;
 
-var socket = io.connect('http://127.0.0.1:3000/');
-try {
-	servers.forEach(function(element) {
-		console.log(element);
-	});
-} catch (err) {
-	console.log(err);
+var playing = false;
+
+function playClicked() {
+	if (!playing) {
+		play();
+	}
 }
-socket.on("onconnected", function(response) {
-	console.log('Connected successfully to the socket.io server with UUID of ' + response.id);
-});
+
+function play() {
+	console.log("Connecting to server");
+	socket = io.connect("http://127.0.0.1:3000/");
+	socket.emit("gameConnect", document.getElementById("name").value);
+
+	socket.on("gameConnected", function(response) {
+		myUUID = response.id;
+		localPlayer = response.playerInstance;
+		console.log('Connected successfully to the server (' + response.name + " " + response.id + ")");
+		playing = true;
+	});
+}

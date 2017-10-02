@@ -7,13 +7,13 @@ function draw() {
 	ctx.clearRect(0, 0, canvas.width, canvas.height); // clear screen
 	//draw gradient
 	var grd = ctx.createRadialGradient(canvas.width / 2, canvas.height / 2, 5, canvas.width / 2, canvas.height / 2, canvas.width);
-	grd.addColorStop(0, "#F0FAFC");
-	grd.addColorStop(1, "#BDCCD1");
+	grd.addColorStop(0, "#27363B");
+	grd.addColorStop(1, "#27363B");
 	ctx.fillStyle = grd;
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 	//draw player
-	player.draw();
+	//player.draw();
 
 	ctx.restore();
 }

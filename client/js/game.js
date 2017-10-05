@@ -10,24 +10,31 @@ function loop() {
 	requestAnimationFrame(loop);
 }
 
+function setDir(newDir) {
+	if (localPlayer.dir != newDir) {
+		localPlayer.dir = newDir;
+		updateLocalDir(localPlayer.dir);
+	}
+}
+
 window.addEventListener("keydown", function(event) {
 	if (!playing)
 		return;
 	switch (event.keyCode) {
 		case 65: //a
-			localPlayer.dir = "left";
+			setDir("left");
 			break;
 		case 87: //w
-			localPlayer.dir = "up";
+			setDir("up");
 			break;
 		case 68: //d
-			localPlayer.dir = "right";
+			setDir("right");
 			break;
 		case 83: //s
-			localPlayer.dir = "down";
+			setDir("down");
 			break;
 		case 80: //p
-			localPlayer.dir = "stop";
+			setDir("stop");
 			break;
 	}
 });

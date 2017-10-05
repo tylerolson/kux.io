@@ -10,13 +10,18 @@ function playClicked() {
 
 function play() {
 	console.log("Connecting to server");
-	socket = io.connect("http://127.0.0.1:3000/");
-	socket.emit("gameConnect", document.getElementById("name").value);
+	socket = io.connect("http://localhost:27015/");
 
 	socket.on("gameConnected", function(response) {
 		myUUID = response.id;
 		localPlayer = response.playerInstance;
 		console.log('Connected successfully to the server (' + response.name + " " + response.id + ")");
+		document.getElementById("title").remove();
+		document.getElementById("panel").remove();
 		playing = true;
 	});
+}
+
+function updateLocalPlayer(dir) {
+	socket.emit("updateLocalDir", dir);
 }

@@ -12,10 +12,17 @@ function draw() {
 	ctx.fillStyle = grd;
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-	//draw player
-	//player.draw();
+	if (playing)
+		drawPlayer();
 
 	ctx.restore();
+}
+
+function drawPlayer() {
+	ctx.beginPath();
+	ctx.fillStyle = localPlayer.color; //set color player color
+	ctx.rect(localPlayer.x, localPlayer.y, 40, 40);
+	ctx.fill();
 }
 
 function resize() {

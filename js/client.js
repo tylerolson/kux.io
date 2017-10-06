@@ -10,7 +10,7 @@ function playClicked() {
 
 function play() {
 	console.log("Connecting to server");
-	socket = io.connect("http://localhost:27015/");
+	socket = io.connect("http://66.234.215.128:27015/");
 
 	socket.emit("gameConnect", document.getElementById("name").value);
 	socket.on("gameConnected", function(response) {

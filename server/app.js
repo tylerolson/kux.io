@@ -1,11 +1,12 @@
 const PORT = 27015;
-var io = require('socket.io')(PORT);
-var uuid = require('uuid/v4');
-var player = require('./player.js');
-var gameServer = require('./GameServer.js');
+const express = require('express');
+const uuid = require('uuid/v4');
+const player = require('./player.js');
+const gameServer = require('./GameServer.js');
+var app = express();
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
 var gs = new gameServer(io);
-
-console.log('socket.io:: Listening on port ' + PORT);
 
 io.on('connection', function(client) { // when socket gets connection
 	client.on('gameConnect', function(name) { // when game sends gameConnect
@@ -37,3 +38,7 @@ function update() {
 	io.emit("updatePlayers", gs.players);
 }
 setInterval(update, 1000 / 30);
+
+http.listen(PORT, function() {
+	console.log('socket.io:: Listening on port ' + PORT);
+});

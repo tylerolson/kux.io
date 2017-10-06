@@ -12,16 +12,20 @@ function draw() {
 	ctx.fillStyle = grd;
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-	if (playing)
-		drawPlayer();
+	if (playing) {
+		drawPlayer(ctx, localPlayer.color, localPlayer.x, localPlayer.y);
+		for (i = 0; i < otherPlayers.length; i++) {
+			drawPlayer(ctx, otherPlayers[i].color, otherPlayers[i].x, otherPlayers[i].y);
+		}
+	}
 
 	ctx.restore();
 }
 
-function drawPlayer() {
+function drawPlayer(ctx, color, x, y) {
 	ctx.beginPath();
-	ctx.fillStyle = localPlayer.color; //set color player color
-	ctx.rect(localPlayer.x, localPlayer.y, 40, 40);
+	ctx.fillStyle = color; //set color player color
+	ctx.rect(x, y, 40, 40);
 	ctx.fill();
 }
 

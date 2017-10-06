@@ -1,11 +1,10 @@
 module.exports = function(newIO) {
 	this.players = [];
 	this.speed = 4;
-	console.log("init yeah");
 
 	this.addPlayer = function(player) {
 		this.players.push(player);
-		console.log(this.players);
+		console.log(this.players.name);
 		console.log(this.players.length);
 	}
 
@@ -15,7 +14,7 @@ module.exports = function(newIO) {
 				this.players.splice(i, 1);
 			}
 		}
-		console.log(this.players);
+		console.log(this.players.name);
 		console.log(this.players.length);
 	}
 

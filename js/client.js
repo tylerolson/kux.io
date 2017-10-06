@@ -15,7 +15,7 @@ function play() {
 	socket.emit("gameConnect", document.getElementById("name").value);
 	socket.on("gameConnected", function(response) {
 		localPlayer = response.playerInstance;
-		console.log('Connected successfully to the server (' + response.name + " " + response.id + ")");
+		console.log('Connected successfully to the server (' + response.playerInstance.name + " " + response.playerInstance.id + ")");
 		document.getElementById("title").remove();
 		document.getElementById("panel").remove();
 		playing = true;
@@ -25,14 +25,28 @@ function play() {
 		console.log("test");
 	});
 
-	socket.on("updatePlayers", function(players) {
+	socket.on("playerList", function(players) {
 		for (i = 0; i < players.length; i++) {
-			console.log(players[i].id + " " + localPlayer.id);
-			if (localPlayer.id == players[i].id) {
-				localPlayer = players[i];
+			if (players[i] != null) {
+				if (players[i].id != localPlayer.id) {
+					otherPlayers.push(players[i]);
+				}
 			}
 		}
+		console.log(otherPlayers);
+	});
 
+	socket.on("updatePlayers", function(players) {
+		otherPlayers = [];
+		for (i = 0; i < players.length; i++) {
+			if (players[i] != null) {
+				if (localPlayer.id == players[i].id) {
+					localPlayer = players[i];
+				} else {
+					otherPlayers.push(players[i]);
+				}
+			}
+		}
 	});
 }
 

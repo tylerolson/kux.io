@@ -1,4 +1,5 @@
 var localPlayer;
+var otherPlayers = [];
 
 requestAnimationFrame(loop);
 

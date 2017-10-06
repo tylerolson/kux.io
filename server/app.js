@@ -9,11 +9,12 @@ console.log('socket.io:: Listening on port ' + PORT);
 
 io.on('connection', function(client) { // when socket gets connection
 	client.on('gameConnect', function(name) { // when game sends gameConnect
-		client.playerInstance = new player.Player(name, uuid()); // give client a playerinstance
+		client.playerInstance = new player(name, uuid()); // give client a playerinstance
 		gs.addPlayer(client.playerInstance);
 		client.emit('gameConnected', { // give client it's properties
 			playerInstance: client.playerInstance
 		});
+		io.emit("playerList", gs.players);
 		console.log('socket.io:: client ' + client.playerInstance.name + " (" + client.playerInstance.id + ') connected');
 	});
 
@@ -23,7 +24,11 @@ io.on('connection', function(client) { // when socket gets connection
 
 	client.on('disconnect', function() {
 		gs.removePlayer(client.playerInstance);
-		console.log('socket.io:: client ' + client.playerInstance.name + " (" + client.playerInstance.id + ') disconnected');
+		if (client.playerInstance != null) {
+			console.log('socket.io:: client ' + client.playerInstance.name + " (" + client.playerInstance.id + ') disconnected');
+		} else {
+			console.log('socket.io:: client ' + client.id + ' disconnected');
+		}
 	});
 });
 

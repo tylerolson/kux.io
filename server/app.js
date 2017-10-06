@@ -39,6 +39,7 @@ function update() {
 }
 setInterval(update, 1000 / 30);
 
+app.use(express.static('../client/'));
 http.listen(PORT, function() {
 	console.log('socket.io:: Listening on port ' + PORT);
 });

@@ -1,7 +1,5 @@
 var localPlayer;
 
-var myUUID;
-
 requestAnimationFrame(loop);
 
 function loop() {
@@ -13,7 +11,7 @@ function loop() {
 function setDir(newDir) {
 	if (localPlayer.dir != newDir) {
 		localPlayer.dir = newDir;
-		updateLocalDir(localPlayer.dir);
+		updateDir(localPlayer.dir);
 	}
 }
 

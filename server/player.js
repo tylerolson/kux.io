@@ -1,10 +1,9 @@
 module.exports = {
-	Player: function(name) {
+	Player: function(name, id) {
 		this.name = name;
-		this.x = 0;
+		this.id = id;
+		this.x = 1;
 		this.y = 0;
-		this.velX = 0;
-		this.velY = 0;
 		this.dir = "stop";
 		this.color = "#E84A5F";
 	}

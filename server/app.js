@@ -8,14 +8,20 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var gs = new gameServer(io);
 
-io.on('connection', function(client) { // when socket gets connection
-	client.on('gameConnect', function(name) { // when game sends gameConnect
-		client.playerInstance = new player(name, uuid()); // give client a playerinstance
-		gs.addPlayer(client.playerInstance);
-		client.emit('gameConnected', { // give client it's properties
+app.use(express.static('../client/'));
+http.listen(PORT, function() {
+	console.log('socket.io:: Listening on port ' + PORT);
+});
+
+io.on('connection', function(client) { //when socket gets connection
+	client.on('gameConnect', function(properties) { //when game sends gameConnect
+		client.playerInstance = new player(properties.name, properties.color, uuid()); //give client a playerinstance
+		gs.addPlayer(client.playerInstance); //add the player to the gameServer
+
+		client.emit('gameConnected', { //give client it's properties
 			playerInstance: client.playerInstance
 		});
-		io.emit("playerList", gs.players);
+
 		console.log('socket.io:: client ' + client.playerInstance.name + " (" + client.playerInstance.id + ') connected');
 	});
 
@@ -38,8 +44,3 @@ function update() {
 	io.emit("updatePlayers", gs.players);
 }
 setInterval(update, 1000 / 30);
-
-app.use(express.static('../client/'));
-http.listen(PORT, function() {
-	console.log('socket.io:: Listening on port ' + PORT);
-});

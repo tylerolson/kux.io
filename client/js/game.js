@@ -5,7 +5,6 @@ requestAnimationFrame(loop);
 
 function loop() {
 	draw();
-	if (playing) {}
 	requestAnimationFrame(loop);
 }
 

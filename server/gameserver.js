@@ -4,7 +4,7 @@ module.exports = function(newIO) {
 
 	this.addPlayer = function(player) {
 		this.players.push(player);
-	}
+	};
 
 	this.removePlayer = function(player) {
 		for (i = 0; i < this.players.length; i++) {
@@ -12,7 +12,7 @@ module.exports = function(newIO) {
 				this.players.splice(i, 1);
 			}
 		}
-	}
+	};
 
 	this.update = function() {
 		if (this.players != null) {
@@ -31,11 +31,8 @@ module.exports = function(newIO) {
 						this.players[i].y -= this.speed;
 						break;
 					default:
-
 				}
-				//this.players[i].x = 20;
 			}
 		}
-	}
-
-}
+	};
+};

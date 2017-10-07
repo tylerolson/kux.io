@@ -1,10 +1,10 @@
-function Player(name, id) {
+function Player(name, color, id) {
 	this.name = name;
+	this.color = "#" + color;
 	this.id = id;
-	this.x = 1;
-	this.y = 0;
-	this.dir = "stop";
-	this.color = "#E84A5F";
+	this.x = 20;
+	this.y = 20;
+	this.dir = "right";
 }
 
 module.exports = Player;

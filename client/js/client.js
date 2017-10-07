@@ -3,6 +3,7 @@ var socket;
 var playing = false;
 
 function playClicked() {
+	document.getElementById("playButton").disabled = true;
 	if (!playing) {
 		play();
 	}
@@ -21,10 +22,6 @@ function play() {
 		playing = true;
 	});
 
-	socket.on("test", function() {
-		console.log("test");
-	});
-
 	socket.on("playerList", function(players) {
 		for (i = 0; i < players.length; i++) {
 			if (players[i] != null) {
@@ -33,13 +30,12 @@ function play() {
 				}
 			}
 		}
-		console.log(otherPlayers);
 	});
 
 	socket.on("updatePlayers", function(players) {
 		otherPlayers = [];
 		for (i = 0; i < players.length; i++) {
-			if (players[i] != null) {
+			if (players[i] != null && localPlayer != null) {
 				if (localPlayer.id == players[i].id) {
 					localPlayer = players[i];
 				} else {

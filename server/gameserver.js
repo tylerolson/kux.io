@@ -4,8 +4,6 @@ module.exports = function(newIO) {
 
 	this.addPlayer = function(player) {
 		this.players.push(player);
-		console.log(this.players.name);
-		console.log(this.players.length);
 	}
 
 	this.removePlayer = function(player) {
@@ -14,8 +12,6 @@ module.exports = function(newIO) {
 				this.players.splice(i, 1);
 			}
 		}
-		console.log(this.players.name);
-		console.log(this.players.length);
 	}
 
 	this.update = function() {

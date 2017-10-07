@@ -28,7 +28,8 @@ Clone the project and open index.html. If my server is up you can mindlessly mov
 
 ## Credits
 
-[Animate.css library](https://github.com/daneden/animate.css) by [Daniel Eden](https://github.com/daneden) 
+[Animate.css library](https://github.com/daneden/animate.css) by [Daniel Eden](https://github.com/daneden)
+
 [JSColor.js library](http://jscolor.com)
 
 ## License

@@ -6,12 +6,14 @@ const gameServer = require('./GameServer.js');
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-var gs = new gameServer(io);
+var gs = new gameServer();
 
 app.use(express.static('../client/'));
 http.listen(PORT, function() {
 	console.log('socket.io:: Listening on port ' + PORT);
 });
+
+gs.makeMap(20, 48, 38);
 
 io.on('connection', function(client) { //when socket gets connection
 	client.on('gameConnect', function(properties) { //when game sends gameConnect
@@ -20,7 +22,9 @@ io.on('connection', function(client) { //when socket gets connection
 
 		client.emit('gameConnected', { //give client it's properties
 			playerInstance: client.playerInstance,
-			MAPSIZE: gs.MAPSIZE
+			mapSize: gs.mapSize,
+			tileSize: gs.tileSize,
+			playerSize: gs.playerSize
 		});
 
 		console.log('socket.io:: client ' + client.playerInstance.name + " (" + client.playerInstance.id + ') connected');

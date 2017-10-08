@@ -53,24 +53,24 @@ function drawUI() {
 }
 
 function drawMap() {
-	for (i = 0; i < MAPSIZE; i++) {
-		for (j = 0; j < MAPSIZE; j++) {
+	for (i = 0; i < mapSize; i++) {
+		for (j = 0; j < mapSize; j++) {
 			ctx.fillStyle = "#3a4f56";
-			ctx.fillRect(40 * i, 40 * j, 30, 30);
+			ctx.fillRect(tileSize * i + 5, tileSize * j + 5, playerSize, playerSize);
 		}
 	}
 
 	//borders
 	ctx.fillStyle = "#262626";
-	ctx.fillRect(-40, -40, 40, MAPSIZE * 40 + 80);
-	ctx.fillRect(MAPSIZE * 40, -40, 40, MAPSIZE * 40 + 80);
-	ctx.fillRect(0, -40, MAPSIZE * 40, 40);
-	ctx.fillRect(0, MAPSIZE * 40, MAPSIZE * 40, 40);
+	ctx.fillRect(-playerSize, -playerSize, playerSize, mapSize * tileSize + playerSize * 2);
+	ctx.fillRect(mapSize * tileSize, -playerSize, playerSize, mapSize * tileSize + playerSize * 2);
+	ctx.fillRect(0, -playerSize, mapSize * tileSize, playerSize);
+	ctx.fillRect(0, mapSize * tileSize, mapSize * tileSize, playerSize);
 }
 
 function drawPlayer(color, x, y) {
 	ctx.fillStyle = color;
-	ctx.fillRect(x, y, 30, 30);
+	ctx.fillRect(x + (tileSize - playerSize) / 2, y + (tileSize - playerSize) / 2, playerSize, playerSize);
 }
 
 function resize() {

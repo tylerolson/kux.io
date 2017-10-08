@@ -6,15 +6,17 @@ var cameraY = 0;
 
 function draw() {
 	ctx.save();
-	ctx.translate(cameraX, cameraY);
 
+	ctx.translate(cameraX, cameraY);
 	ctx.clearRect(-cameraX, -cameraY, canvas.width, canvas.height); // clear screen
+
 	//draw gradient
-	var grd = ctx.createRadialGradient(canvas.width / 2, canvas.height / 2, 5, canvas.width / 2, canvas.height / 2, canvas.width);
+	var grd = ctx.createRadialGradient(-cameraX + canvas.width / 2, -cameraY + canvas.height / 2, 5, -cameraX + canvas.width / 2, -cameraY + canvas.height / 2, canvas.width);
 	grd.addColorStop(0, "#27363B");
-	grd.addColorStop(1, "#27363B");
+	grd.addColorStop(1, "#2A363B");
 	ctx.fillStyle = grd;
 	ctx.fillRect(-cameraX, -cameraY, canvas.width, canvas.height);
+
 
 	if (playing) {
 		drawMap();
@@ -32,7 +34,7 @@ function draw() {
 
 function drawUI() {
 	//draw player list
-	ctx.fillStyle = "#fff";
+	ctx.fillStyle = "#6297A8";
 	ctx.font = "32pt Panama-Light";
 	ctx.textAlign = "right";
 	ctx.fillText("Players", canvas.width, 33);
@@ -47,7 +49,7 @@ function drawUI() {
 function drawMap() {
 	for (i = 0; i < 10; i++) {
 		for (j = 0; j < 10; j++) {
-			ctx.fillStyle = "#aaa";
+			ctx.fillStyle = "#3a4f56";
 			ctx.fillRect(40 * i, 40 * j, 30, 30);
 		}
 	}
@@ -55,7 +57,7 @@ function drawMap() {
 
 function drawPlayer(color, x, y) {
 	ctx.fillStyle = color;
-	ctx.fillRect(x, y, 40, 40);
+	ctx.fillRect(x, y, 30, 30);
 }
 
 function resize() {

@@ -26,7 +26,7 @@ io.on('connection', function(client) { //when socket gets connection
 	});
 
 	client.on('updateDir', function(newDir) {
-		client.playerInstance.dir = newDir;
+		gs.changeDir(client.playerInstance, newDir);
 	});
 
 	client.on('disconnect', function() {

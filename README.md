@@ -19,7 +19,8 @@ Clone the project and open index.html. If my server is up you can mindlessly mov
 
 ## TODO
 
-* Add camera
+* ~~Add camera~~
+* ~~Move in grid~~
 * Add trail
 * Add collisions
 * Fix zoom scaling

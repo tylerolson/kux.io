@@ -4,10 +4,6 @@ var otherPlayers = [];
 requestAnimationFrame(loop);
 
 function loop() {
-	if (localPlayer != null) {
-		cameraX = -localPlayer.x + canvas.width / 2;
-		cameraY = -localPlayer.y + canvas.height / 2;
-	}
 	draw();
 	requestAnimationFrame(loop);
 }

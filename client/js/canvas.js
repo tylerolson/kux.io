@@ -5,7 +5,13 @@ var cameraX = 0;
 var cameraY = 0;
 
 function draw() {
+
+	if (localPlayer != null) {
+		cameraX = -localPlayer.x + canvas.width / 2;
+		cameraY = -localPlayer.y + canvas.height / 2;
+	}
 	ctx.save();
+
 
 	ctx.translate(cameraX, cameraY);
 	ctx.clearRect(-cameraX, -cameraY, canvas.width, canvas.height); // clear screen
@@ -47,12 +53,19 @@ function drawUI() {
 }
 
 function drawMap() {
-	for (i = 0; i < 10; i++) {
-		for (j = 0; j < 10; j++) {
+	for (i = 0; i < MAPSIZE; i++) {
+		for (j = 0; j < MAPSIZE; j++) {
 			ctx.fillStyle = "#3a4f56";
 			ctx.fillRect(40 * i, 40 * j, 30, 30);
 		}
 	}
+
+	//borders
+	ctx.fillStyle = "#262626";
+	ctx.fillRect(-40, -40, 40, MAPSIZE * 40 + 80);
+	ctx.fillRect(MAPSIZE * 40, -40, 40, MAPSIZE * 40 + 80);
+	ctx.fillRect(0, -40, MAPSIZE * 40, 40);
+	ctx.fillRect(0, MAPSIZE * 40, MAPSIZE * 40, 40);
 }
 
 function drawPlayer(color, x, y) {

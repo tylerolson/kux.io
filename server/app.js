@@ -19,7 +19,8 @@ io.on('connection', function(client) { //when socket gets connection
 		gs.addPlayer(client.playerInstance); //add the player to the gameServer
 
 		client.emit('gameConnected', { //give client it's properties
-			playerInstance: client.playerInstance
+			playerInstance: client.playerInstance,
+			MAPSIZE: gs.MAPSIZE
 		});
 
 		console.log('socket.io:: client ' + client.playerInstance.name + " (" + client.playerInstance.id + ') connected');

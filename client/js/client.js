@@ -24,6 +24,8 @@ function play() {
 
 	socket.on("gameConnected", function(response) { //once connected set localplayer to server's player
 		localPlayer = response.playerInstance;
+		MAPSIZE = response.MAPSIZE;
+		console.log(MAPSIZE);
 		document.getElementById("title").remove();
 		document.getElementById("panel").remove();
 		playing = true;

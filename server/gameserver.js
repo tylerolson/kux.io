@@ -1,6 +1,7 @@
 module.exports = function(newIO) {
 	this.players = [];
 	this.speed = 8;
+	this.MAPSIZE = 100;
 
 	this.addPlayer = function(player) {
 		this.players.push(player);
@@ -33,20 +34,36 @@ module.exports = function(newIO) {
 					this.players[i].dir = this.players[i].nextDir;
 				}
 
-				switch (this.players[i].dir) {
-					case "left":
-						this.players[i].x -= this.speed;
-						break;
-					case "right":
-						this.players[i].x += this.speed;
-						break;
-					case "down":
-						this.players[i].y += this.speed;
-						break;
-					case "up":
-						this.players[i].y -= this.speed;
-						break;
-					default:
+				//x
+				if (this.players[i].dir == "right") {
+					this.players[i].x += this.speed;
+				}
+				if (this.players[i].dir == "left") {
+					this.players[i].x -= this.speed;
+				}
+
+				//y
+				if (this.players[i].dir == "up") {
+					this.players[i].y -= this.speed;
+				}
+				if (this.players[i].dir == "down") {
+					this.players[i].y += this.speed;
+				}
+
+				if (this.players[i].x < 0) {
+					this.players[i].x = 0;
+					this.players[i].dir = "stop";
+				} else if (this.players[i].x > (this.MAPSIZE - 1) * 40) {
+					this.players[i].x = (this.MAPSIZE - 1) * 40;
+					this.players[i].dir = "stop";
+				}
+
+				if (this.players[i].y < 0) {
+					this.players[i].y = 0;
+					this.players[i].dir = "stop";
+				} else if (this.players[i].y > (this.MAPSIZE - 1) * 40) {
+					this.players[i].y = (this.MAPSIZE - 1) * 40;
+					this.players[i].dir = "stop";
 				}
 			}
 		}

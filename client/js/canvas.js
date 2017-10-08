@@ -6,11 +6,9 @@ var cameraY = 0;
 
 function draw() {
 	ctx.save();
-
 	ctx.translate(cameraX, cameraY);
 
 	ctx.clearRect(-cameraX, -cameraY, canvas.width, canvas.height); // clear screen
-
 	//draw gradient
 	var grd = ctx.createRadialGradient(canvas.width / 2, canvas.height / 2, 5, canvas.width / 2, canvas.height / 2, canvas.width);
 	grd.addColorStop(0, "#27363B");
@@ -19,8 +17,6 @@ function draw() {
 	ctx.fillRect(-cameraX, -cameraY, canvas.width, canvas.height);
 
 	if (playing) {
-		cameraX = -localPlayer.x + canvas.width / 2;
-		cameraY = -localPlayer.y + canvas.height / 2;
 		drawMap();
 		//draw players
 		drawPlayer(localPlayer.color, localPlayer.x, localPlayer.y);

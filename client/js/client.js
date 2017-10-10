@@ -24,27 +24,32 @@ function play() {
 
 	socket.on("gameConnected", function(response) { //once connected set localplayer to server's player
 		localPlayer = response.playerInstance;
+		map = response.map;
+		console.log(response);
 		mapSize = response.mapSize;
 		tileSize = response.tileSize;
 		playerSize = response.playerSize;
-		console.log(mapSize);
 		document.getElementById("title").remove();
 		document.getElementById("panel").remove();
 		playing = true;
 		console.log('Connected successfully to the server (' + response.playerInstance.name + " " + response.playerInstance.id + ")");
 	});
 
-	socket.on("updatePlayers", function(players) { //updatePlayers which is sent at 30hz
+	socket.on("update", function(response) { //updatePlayers which is sent at 30hz
 		otherPlayers = [];
-		for (i = 0; i < players.length; i++) {
-			if (players[i] != null && localPlayer != null) {
-				if (players[i].id != localPlayer.id) {
-					otherPlayers.push(players[i]);
+		for (i = 0; i < response.players.length; i++) {
+			if (response.players[i] != null && localPlayer != null) {
+				if (response.players[i].id != localPlayer.id) {
+					otherPlayers.push(response.players[i]);
 				} else {
-					localPlayer = players[i];
+					localPlayer = response.players[i];
 				}
 			}
 		}
+	});
+
+	socket.on("updateMap", function(map) {
+		console.log(map);
 	});
 }
 

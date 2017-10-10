@@ -1,5 +1,8 @@
 var localPlayer;
 var otherPlayers = [];
+var map = [
+	[]
+];
 
 requestAnimationFrame(loop);
 

@@ -22,10 +22,17 @@ io.on('connection', function(client) { //when socket gets connection
 
 		client.emit('gameConnected', { //give client it's properties
 			playerInstance: client.playerInstance,
+			map: gs.map,
 			mapSize: gs.mapSize,
 			tileSize: gs.tileSize,
 			playerSize: gs.playerSize
 		});
+
+		for (i = 0; i < gs.mapSize; i++) {
+			for (j = 0; j < gs.mapSize; j++) {
+				//client.emit('update', {mapUpdate: gs.map[[i, j]]});
+			}
+		}
 
 		console.log('socket.io:: client ' + client.playerInstance.name + " (" + client.playerInstance.id + ') connected');
 	});
@@ -46,6 +53,11 @@ io.on('connection', function(client) { //when socket gets connection
 
 function update() {
 	gs.update();
-	io.emit("updatePlayers", gs.players);
+	io.emit("update", {
+		players: gs.players,
+	});
+
+	io.emit("updateMap", gs.map);
+	console.log(gs.map.toString());
 }
 setInterval(update, 1000 / 30);

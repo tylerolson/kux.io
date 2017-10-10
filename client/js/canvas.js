@@ -55,7 +55,11 @@ function drawUI() {
 function drawMap() {
 	for (i = 0; i < mapSize; i++) {
 		for (j = 0; j < mapSize; j++) {
-			ctx.fillStyle = "#3a4f56";
+			if (map[[i, j]] == 0) {
+				ctx.fillStyle = "#3a4f56";
+			} else if (map[[i, j]] == localPlayer.id) {
+				ctx.fillStyle = localPlayer.color;
+			}
 			ctx.fillRect(tileSize * i + 5, tileSize * j + 5, playerSize, playerSize);
 		}
 	}

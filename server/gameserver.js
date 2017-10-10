@@ -12,6 +12,8 @@ module.exports = function() {
 					this.players[i].dir = this.players[i].nextDir;
 				}
 
+				this.map[[this.players[i].x / this.playerSize, this.players[i].y / this.playerSize]] = this.players[i].id;
+
 				//x
 				if (this.players[i].dir == "right") {
 					this.players[i].x += this.speed;
@@ -54,8 +56,7 @@ module.exports = function() {
 
 		for (i = 0; i < this.mapSize; i++) {
 			for (j = 0; j < this.mapSize; j++) {
-				//this.map[i][j] = 0;
-				//console.log(this.map[i][j]);
+				this.map[[i, j]] = 0;
 			}
 		}
 	};

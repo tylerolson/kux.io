@@ -27,7 +27,10 @@ Clone the project and open index.html. If my server is up you can mindlessly mov
 * Add collisions
 * Fix zoom scaling
 * Add abilities
-* Server picker?
+* Minimap
+* High scores
+* Server picker
+* Login system
 
 ## Credits
 

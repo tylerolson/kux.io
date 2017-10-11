@@ -8,6 +8,8 @@ module.exports = function() {
 	this.update = function() {
 		if (this.players != null) {
 			for (i = 0; i < this.players.length; i++) {
+				this.players[i].oldX = this.players[i].x;
+				this.players[i].oldY = this.players[i].y;
 				if (this.players[i].x % this.tileSize === 0 && this.players[i].y % this.tileSize === 0) {
 					this.players[i].dir = this.players[i].nextDir;
 				}
@@ -62,6 +64,8 @@ module.exports = function() {
 	};
 
 	this.changeDir = function(player, newDir) {
+		if (player == null)
+			return;
 		if (newDir == "up" && player.dir == "down")
 			return;
 		if (newDir == "down" && player.dir == "up")
@@ -78,10 +82,6 @@ module.exports = function() {
 	};
 
 	this.removePlayer = function(player) {
-		for (i = 0; i < this.players.length; i++) {
-			if (player == this.players[i]) {
-				this.players.splice(i, 1);
-			}
-		}
+		this.players.splice(this.players.indexOf(player), 1);
 	};
 };

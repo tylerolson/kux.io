@@ -1,6 +1,7 @@
 var socket;
 
 var playing = false;
+var id;
 
 function playClicked() {
 	if (document.getElementById("name").value == "") {
@@ -24,8 +25,8 @@ function play() {
 
 	socket.on("gameConnected", function(response) { //once connected set localplayer to server's player
 		localPlayer = response.playerInstance;
+		id = response.playerInstance.id;
 		map = response.map;
-		console.log(response);
 		mapSize = response.mapSize;
 		tileSize = response.tileSize;
 		playerSize = response.playerSize;
@@ -35,21 +36,42 @@ function play() {
 		console.log('Connected successfully to the server (' + response.playerInstance.name + " " + response.playerInstance.id + ")");
 	});
 
-	socket.on("update", function(response) { //updatePlayers which is sent at 30hz
-		otherPlayers = [];
-		for (i = 0; i < response.players.length; i++) {
-			if (response.players[i] != null && localPlayer != null) {
-				if (response.players[i].id != localPlayer.id) {
-					otherPlayers.push(response.players[i]);
-				} else {
-					localPlayer = response.players[i];
-				}
+	socket.on("playerAdded", function(player) {
+		if (player.id == id)
+			return;
+		for (i = 0; i < otherPlayers.length; i++) {
+			if (otherPlayers[i].id == player.id) {
+				return; //found someone
+			}
+		}
+		// if not returned
+		otherPlayers.push(player); //add player to otherplayers if its not yours
+	});
+
+	socket.on("playerRemoved", function(player) {
+		//no need to check for localplayer
+		for (i = 0; i < otherPlayers.length; i++) {
+			if (otherPlayers[i].id == player.id) {
+				otherPlayers.splice(otherPlayers[i], 1);
+			}
+		}
+	});
+
+	socket.on("updatePlayer", function(player) { //updatePlayers sent at 30hz
+		if (player.id == id) {
+			localPlayer.x = player.x;
+			localPlayer.y = player.y;
+		}
+		for (i = 0; i < otherPlayers.length; i++) {
+			if (otherPlayers[i].id == player.id) {
+				otherPlayers[i].x = player.x;
+				otherPlayers[i].y = player.y;
 			}
 		}
 	});
 
 	socket.on("updateMap", function(map) {
-		console.log(map);
+		//console.log(map);
 	});
 }
 

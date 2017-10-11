@@ -2,7 +2,7 @@ const PORT = 27015;
 const express = require('express');
 const uuid = require('uuid/v4');
 const player = require('./player.js');
-const gameServer = require('./GameServer.js');
+const gameServer = require('./gameserver.js');
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
@@ -58,6 +58,5 @@ function update() {
 	});
 
 	io.emit("updateMap", gs.map);
-	console.log(gs.map.toString());
 }
 setInterval(update, 1000 / 30);

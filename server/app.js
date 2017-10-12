@@ -32,12 +32,6 @@ io.on('connection', function(client) { //when socket gets connection
 			io.emit("playerAdded", gs.players[i]); //tell all that new players
 		}
 
-		for (i = 0; i < gs.mapSize; i++) {
-			for (j = 0; j < gs.mapSize; j++) {
-				//client.emit('update', {mapUpdate: gs.map[[i, j]]});
-			}
-		}
-
 		console.log('socket.io:: client ' + client.playerInstance.name + " (" + client.playerInstance.id + ') connected');
 	});
 

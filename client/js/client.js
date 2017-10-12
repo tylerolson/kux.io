@@ -70,8 +70,12 @@ function play() {
 		}
 	});
 
-	socket.on("updateMap", function(map) {
-		//console.log(map);
+	socket.on("updateMap", function(newmap) {
+		map = newmap;
+	});
+
+	socket.on("updateMapTile", function(x, y, data) {
+		map[x][y] = data;
 	});
 }
 

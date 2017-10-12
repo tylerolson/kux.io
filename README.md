@@ -22,7 +22,7 @@ Clone the project and open index.html. If my server is up you can mindlessly mov
 * ~~Add camera~~
 * ~~Move in grid~~
 * ~~Add border~~
-* Add map array
+* ~~Add map array~~
 * Add trail
 * Add collisions
 * Fix zoom scaling

@@ -1,20 +1,17 @@
 module.exports = function() {
-	this.players = [];
 	this.speed = 8;
-	this.map = [
-		[]
-	];
+	this.players = [];
+	this.map = [];
 
 	this.update = function() {
 		if (this.players != null) {
 			for (i = 0; i < this.players.length; i++) {
 				this.players[i].oldX = this.players[i].x;
 				this.players[i].oldY = this.players[i].y;
-				if (this.players[i].x % this.tileSize === 0 && this.players[i].y % this.tileSize === 0) {
+				if (this.players[i].x % this.tileSize === 0 && this.players[i].y % this.tileSize === 0) { //when in sqaure
 					this.players[i].dir = this.players[i].nextDir;
+					this.map[this.players[i].x / this.tileSize][this.players[i].y / this.tileSize] = this.players[i].id;
 				}
-
-				this.map[[this.players[i].x / this.playerSize, this.players[i].y / this.playerSize]] = this.players[i].id;
 
 				//x
 				if (this.players[i].dir == "right") {
@@ -55,10 +52,15 @@ module.exports = function() {
 		this.mapSize = mapSize;
 		this.tileSize = tileSize;
 		this.playerSize = playerSize;
+		this.map = new Array(mapSize);
 
-		for (i = 0; i < this.mapSize; i++) {
-			for (j = 0; j < this.mapSize; j++) {
-				this.map[[i, j]] = 0;
+		for (i = 0; i < mapSize; i++) {
+			this.map[i] = new Array(mapSize);
+		}
+
+		for (i = 0; i < mapSize; i++) {
+			for (j = 0; j < mapSize; j++) {
+				this.map[i][j] = 0;
 			}
 		}
 	};

@@ -3,6 +3,7 @@ var ctx = canvas.getContext('2d'); // gets 2d element of canvas
 
 var cameraX = 0;
 var cameraY = 0;
+var map;
 
 function draw() {
 
@@ -67,7 +68,7 @@ function drawMap() {
 				}
 			}
 
-			ctx.fillRect(tileSize * i + 5, tileSize * j + 5, playerSize, playerSize);
+			ctx.fillRect(tileSize * i + (tileSize - playerSize) / 2, tileSize * j + (tileSize - playerSize) / 2, playerSize, playerSize);
 		}
 	}
 
@@ -81,7 +82,9 @@ function drawMap() {
 
 function drawPlayer(color, x, y) {
 	ctx.fillStyle = color;
-	ctx.fillRect(x + (tileSize - playerSize) / 2, y + (tileSize - playerSize) / 2, playerSize, playerSize);
+	ctx.beginPath();
+	ctx.arc(x + tileSize / 2, y + tileSize / 2, tileSize / 1.7, 0, 2 * Math.PI);
+	ctx.fill();
 }
 
 function resize() {

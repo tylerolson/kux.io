@@ -16,6 +16,10 @@ html {
 	font-family: 'Panama-Light', sans-serif;
 }
 
+*:focus {
+	outline: none;
+}
+
 canvas {
 	width: 100%;
 	height: 100%;
@@ -73,6 +77,19 @@ input#color {
 	border-bottom: none;
 }
 
+select {
+	background: none;
+	border: 2px solid #ECF0F1;
+	color: #ECF0F1;
+	width: 75%;
+	height: 40px;
+}
+
+select option {
+	background-color: none;
+	color: #E84A5F;
+}
+
 input[type=button] {
 	background: none;
 	border: 2px solid #ECF0F1;
@@ -92,8 +109,4 @@ input[type=button]:hover {
 input[type=button]:active {
 	background-color: #dee5e7;
 	color: #E84A5F;
-}
-
-input:focus {
-	outline: none;
 }

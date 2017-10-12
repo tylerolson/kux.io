@@ -2,6 +2,7 @@ var socket;
 
 var playing = false;
 var id;
+var ip;
 
 function playClicked() {
 	if (document.getElementById("name").value == "") {
@@ -10,13 +11,19 @@ function playClicked() {
 	}
 	document.getElementById("playButton").disabled = true;
 	if (!playing) {
-		play();
+		play(document.getElementById("serverSelect").value);
 	}
 }
 
-function play() {
+function play(server) {
+	for (i = 0; i < servers.length; i++) {
+		if (servers[i].name == server) {
+			ip = "http://" + servers[i].ip + ":" + servers[i].port + "/";
+		}
+	}
+
 	console.log("Connecting to server");
-	socket = io.connect("http://66.234.215.128:27015/");
+	socket = io.connect(ip);
 
 	socket.emit("gameConnect", { //tell server youre connected with your preferences
 		name: document.getElementById("name").value,

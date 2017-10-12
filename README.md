@@ -29,7 +29,7 @@ Clone the project and open index.html. If my server is up you can mindlessly mov
 * Add abilities
 * Minimap
 * High scores
-* Server picker
+* ~~Server picker~~
 * Login system
 
 ## Credits

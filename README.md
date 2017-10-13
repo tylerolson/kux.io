@@ -2,8 +2,8 @@
 
 A 2D snake-like RTS game.
 
-![](https://img.shields.io/github/issues/Glarity/kux.io.svg)
-![](https://img.shields.io/badge/license-Apache%202-blue.svg)
+[![GitHub issues](https://img.shields.io/github/issues/Glarity/kux.io.svg)](https://github.com/Glarity/kux.io/issues)
+[![GitHub license](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://raw.githubusercontent.com/Glarity/kux.io/master/LICENSE)
 
 ## Usage
 

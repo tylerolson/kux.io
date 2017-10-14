@@ -62,7 +62,9 @@ function update() {
 				});
 			}
 		}
-		io.emit("updateMap", gs.map);
+		if (gs.updateTiles.length > 0) {
+			io.emit("updateTiles", gs.updateTiles);
+		}
 	}
 }
 setInterval(update, 1000 / 30);

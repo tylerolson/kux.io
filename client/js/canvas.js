@@ -3,7 +3,6 @@ var ctx = canvas.getContext('2d'); // gets 2d element of canvas
 
 var cameraX = 0;
 var cameraY = 0;
-var map;
 
 function draw() {
 
@@ -56,18 +55,7 @@ function drawUI() {
 function drawMap() {
 	for (i = 0; i < mapSize; i++) {
 		for (j = 0; j < mapSize; j++) {
-			if (map[i][j] == 0) {
-				ctx.fillStyle = "#3a4f56";
-			} else if (map[i][j] == localPlayer.id) {
-				ctx.fillStyle = localPlayer.color;
-			} else {
-				for (k = 0; k < otherPlayers.length; k++) {
-					if (map[i][j] == otherPlayers[k].id) {
-						ctx.fillStyle = otherPlayers[k].color;
-					}
-				}
-			}
-
+			ctx.fillStyle = map[i][j].color;
 			ctx.fillRect(tileSize * i + (tileSize - playerSize) / 2, tileSize * j + (tileSize - playerSize) / 2, playerSize, playerSize);
 		}
 	}
@@ -82,9 +70,12 @@ function drawMap() {
 
 function drawPlayer(color, x, y) {
 	ctx.fillStyle = color;
+	ctx.stokeStyle = "#ffffff";
+	ctx.lineWidth = 3;
 	ctx.beginPath();
 	ctx.arc(x + tileSize / 2, y + tileSize / 2, tileSize / 1.7, 0, 2 * Math.PI);
 	ctx.fill();
+	ctx.stroke();
 }
 
 function resize() {

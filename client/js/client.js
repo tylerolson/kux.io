@@ -3,6 +3,7 @@ var socket;
 var playing = false;
 var id;
 var ip;
+var map = [];
 
 function playClicked() {
 	if (document.getElementById("name").value == "") {
@@ -77,12 +78,10 @@ function play(server) {
 		}
 	});
 
-	socket.on("updateMap", function(newmap) {
-		map = newmap;
-	});
-
-	socket.on("updateMapTile", function(x, y, data) {
-		map[x][y] = data;
+	socket.on("updateTiles", function(updateTiles) {
+		for (i = 0; i < updateTiles.length; i++) {
+			map[updateTiles[i].x][updateTiles[i].y] = updateTiles[i];
+		}
 	});
 }
 

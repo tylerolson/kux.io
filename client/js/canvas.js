@@ -5,13 +5,11 @@ var cameraX = 0;
 var cameraY = 0;
 
 function draw() {
-
 	if (localPlayer != null) {
-		cameraX = -localPlayer.x + canvas.width / 2;
-		cameraY = -localPlayer.y + canvas.height / 2;
+		cameraX = -localPlayer.x * tileSize + canvas.width / 2;
+		cameraY = -localPlayer.y * tileSize + canvas.height / 2;
 	}
 	ctx.save();
-
 
 	ctx.translate(cameraX, cameraY);
 	ctx.clearRect(-cameraX, -cameraY, canvas.width, canvas.height); // clear screen
@@ -27,15 +25,48 @@ function draw() {
 	if (playing) {
 		drawMap();
 		//draw players
-		drawPlayer(localPlayer.color, localPlayer.x, localPlayer.y);
+		drawPlayer(localPlayer.color, localPlayer.x, localPlayer.y, localPlayer.name);
 		for (i = 0; i < otherPlayers.length; i++) {
-			drawPlayer(otherPlayers[i].color, otherPlayers[i].x, otherPlayers[i].y);
+			drawPlayer(otherPlayers[i].color, otherPlayers[i].x, otherPlayers[i].y, otherPlayers[i].name);
 		}
 	}
 	ctx.restore();
 
 	if (playing)
 		drawUI();
+}
+
+function drawMap() {
+	for (i = 0; i < mapSize; i++) {
+		for (j = 0; j < mapSize; j++) {
+			ctx.fillStyle = map[i][j].color;
+			ctx.fillRect(tileSize * i + (tileSize - innerTileSize) / 2, tileSize * j + (tileSize - innerTileSize) / 2, innerTileSize, innerTileSize);
+		}
+	}
+
+	//borders
+	ctx.fillStyle = "#262626";
+	ctx.fillRect(-innerTileSize, -innerTileSize, innerTileSize, mapSize * tileSize + innerTileSize * 2);
+	ctx.fillRect(mapSize * tileSize, -innerTileSize, innerTileSize, mapSize * tileSize + innerTileSize * 2);
+	ctx.fillRect(0, -innerTileSize, mapSize * tileSize, innerTileSize);
+	ctx.fillRect(0, mapSize * tileSize, mapSize * tileSize, innerTileSize);
+}
+
+function drawPlayer(color, x, y, name) {
+	ctx.fillStyle = color;
+	ctx.strokeStyle = "#444";
+	ctx.lineWidth = 3;
+	ctx.beginPath();
+	ctx.arc(x * tileSize + tileSize / 2, y * tileSize + tileSize / 2, innerTileSize / 1.45, 0, 2 * Math.PI);
+	ctx.stroke();
+	ctx.fill();
+
+	ctx.font = "32pt Panama-Light";
+	ctx.textAlign = "center";
+	ctx.fillStyle = "#ffffff";
+	ctx.lineWidth = 1;
+	ctx.fillText(name, x * tileSize + tileSize / 2, y * tileSize - 10);
+	ctx.strokeText(name, x * tileSize + tileSize / 2, y * tileSize - 10);
 }
 
 function drawUI() {
@@ -50,32 +81,6 @@ function drawUI() {
 		ctx.fillStyle = otherPlayers[i].color;
 		ctx.fillText(otherPlayers[i].name, canvas.width, 113 + (i * 40));
 	}
-}
-
-function drawMap() {
-	for (i = 0; i < mapSize; i++) {
-		for (j = 0; j < mapSize; j++) {
-			ctx.fillStyle = map[i][j].color;
-			ctx.fillRect(tileSize * i + (tileSize - playerSize) / 2, tileSize * j + (tileSize - playerSize) / 2, playerSize, playerSize);
-		}
-	}
-
-	//borders
-	ctx.fillStyle = "#262626";
-	ctx.fillRect(-playerSize, -playerSize, playerSize, mapSize * tileSize + playerSize * 2);
-	ctx.fillRect(mapSize * tileSize, -playerSize, playerSize, mapSize * tileSize + playerSize * 2);
-	ctx.fillRect(0, -playerSize, mapSize * tileSize, playerSize);
-	ctx.fillRect(0, mapSize * tileSize, mapSize * tileSize, playerSize);
-}
-
-function drawPlayer(color, x, y) {
-	ctx.fillStyle = color;
-	ctx.stokeStyle = "#ffffff";
-	ctx.lineWidth = 3;
-	ctx.beginPath();
-	ctx.arc(x + tileSize / 2, y + tileSize / 2, tileSize / 1.7, 0, 2 * Math.PI);
-	ctx.fill();
-	ctx.stroke();
 }
 
 function resize() {

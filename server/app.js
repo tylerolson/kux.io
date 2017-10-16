@@ -2,45 +2,45 @@ const PORT = 27015;
 const express = require('express');
 const uuid = require('uuid/v4');
 const player = require('./player.js');
-const gameServer = require('./gameserver.js');
+const map = require('./gamemap.js');
+const GameServer = require('./gameserver.js');
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-var gs = new gameServer();
+var gameMap = new map(50, 40, 30);
+var gameServer = new GameServer(gameMap);
 
 app.use(express.static('../client/'));
 http.listen(PORT, function() {
 	console.log('socket.io:: Listening on port ' + PORT);
 });
 
-gs.makeMap(20, 48, 38);
-
 io.on('connection', function(client) { //when socket gets connection
 	client.on('gameConnect', function(properties) { //when game sends gameConnect
 		client.playerInstance = new player(properties.name, properties.color, uuid()); //give client a playerinstance
-		gs.addPlayer(client.playerInstance); //add the player to the gameServer
+		gameServer.addPlayer(client.playerInstance); //add the player to the gameServer
 
 		client.emit('gameConnected', { //give client it's properties
 			playerInstance: client.playerInstance,
-			map: gs.map,
-			mapSize: gs.mapSize,
-			tileSize: gs.tileSize,
-			playerSize: gs.playerSize
+			map: gameMap.map,
+			mapSize: gameMap.mapSize,
+			tileSize: gameMap.tileSize,
+			innerTileSize: gameMap.innerTileSize
 		});
 
-		for (i = 0; i < gs.players.length; i++) {
-			io.emit("playerAdded", gs.players[i]); //tell all that new players
+		for (i = 0; i < gameServer.players.length; i++) {
+			io.emit("playerAdded", gameServer.players[i]); //tell all that new players
 		}
 
 		console.log('socket.io:: client ' + client.playerInstance.name + " (" + client.playerInstance.id + ') connected');
 	});
 
 	client.on('updateDir', function(newDir) {
-		gs.changeDir(client.playerInstance, newDir);
+		gameServer.changeDir(client.playerInstance, newDir);
 	});
 
 	client.on('disconnect', function() {
-		gs.removePlayer(client.playerInstance);
+		gameServer.removePlayer(client.playerInstance);
 		if (client.playerInstance != null) {
 			io.emit("playerRemoved", client.playerInstance);
 			console.log('socket.io:: client ' + client.playerInstance.name + " (" + client.playerInstance.id + ') disconnected');
@@ -51,19 +51,19 @@ io.on('connection', function(client) { //when socket gets connection
 });
 
 function update() {
-	if (gs.players.length > 0) {
-		gs.update();
-		for (i = 0; i < gs.players.length; i++) {
-			if (gs.players[i].oldX != gs.players[i].x || gs.players[i].oldY != gs.players[i].y) {
+	if (gameServer.players.length > 0) {
+		gameServer.update();
+		for (i = 0; i < gameServer.players.length; i++) {
+			if (gameServer.players[i].oldX != gameServer.players[i].x || gameServer.players[i].oldY != gameServer.players[i].y) {
 				io.emit("updatePlayer", {
-					id: gs.players[i].id,
-					x: gs.players[i].x,
-					y: gs.players[i].y,
+					id: gameServer.players[i].id,
+					x: gameServer.players[i].x,
+					y: gameServer.players[i].y,
 				});
 			}
 		}
-		if (gs.updateTiles.length > 0) {
-			io.emit("updateTiles", gs.updateTiles);
+		if (gameMap.updateTiles.length > 0) {
+			io.emit("updateTiles", gameMap.updateTiles);
 		}
 	}
 }

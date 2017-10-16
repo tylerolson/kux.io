@@ -32,12 +32,13 @@ function play(server) {
 	});
 
 	socket.on("gameConnected", function(response) { //once connected set localplayer to server's player
+		console.log(response);
 		localPlayer = response.playerInstance;
 		id = response.playerInstance.id;
 		map = response.map;
 		mapSize = response.mapSize;
 		tileSize = response.tileSize;
-		playerSize = response.playerSize;
+		innerTileSize = response.innerTileSize;
 		document.getElementById("title").remove();
 		document.getElementById("panel").remove();
 		playing = true;
@@ -52,8 +53,7 @@ function play(server) {
 				return; //found someone
 			}
 		}
-		// if not returned
-		otherPlayers.push(player); //add player to otherplayers if its not yours
+		otherPlayers.push(player); //if not returned add player to otherplayers if its not yours
 	});
 
 	socket.on("playerRemoved", function(player) {

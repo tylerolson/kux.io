@@ -1,25 +1,19 @@
-module.exports = function() {
-	this.speed = 8;
+module.exports = function(map) {
+	this.speed = 0.25;
 	this.players = [];
-	this.map = [];
-	this.updateTiles = [];
+	this.mapObject = map;
 
 	this.update = function() {
 		if (this.players != null) {
 			for (i = 0; i < this.players.length; i++) {
 				this.players[i].oldX = this.players[i].x;
 				this.players[i].oldY = this.players[i].y;
-				this.updateTiles = [];
-				if (this.players[i].x % this.tileSize === 0 && this.players[i].y % this.tileSize === 0) { //when in sqaure
+
+				this.mapObject.updateTiles = [];
+				if (this.players[i].x % 1 === 0 && this.players[i].y % 1 === 0) { //when in sqaure
 					this.players[i].dir = this.players[i].nextDir;
-					if (this.map[this.players[i].x / this.tileSize][this.players[i].y / this.tileSize].id != this.players[i].id) {
-						this.map[this.players[i].x / this.tileSize][this.players[i].y / this.tileSize] = {
-							x: this.players[i].x / this.tileSize,
-							y: this.players[i].y / this.tileSize,
-							id: this.players[i].id,
-							color: this.players[i].color
-						};
-						this.updateTiles.push(this.map[this.players[i].x / this.tileSize][this.players[i].y / this.tileSize]);
+					if (this.mapObject.map[this.players[i].x][this.players[i].y].id != this.players[i].id) {
+						this.mapObject.setCellData(this.players[i].x, this.players[i].y, this.players[i].id, this.players[i].color);
 					}
 				}
 
@@ -42,40 +36,22 @@ module.exports = function() {
 				if (this.players[i].x < 0) {
 					this.players[i].x = 0;
 					this.players[i].dir = "stop";
-				} else if (this.players[i].x > (this.mapSize - 1) * this.tileSize) {
-					this.players[i].x = (this.mapSize - 1) * this.tileSize;
+				} else if (this.players[i].x > this.mapObject.mapSize - 1) {
+					this.players[i].x = this.mapObject.mapSize - 1;
 					this.players[i].dir = "stop";
 				}
 
 				if (this.players[i].y < 0) {
 					this.players[i].y = 0;
 					this.players[i].dir = "stop";
-				} else if (this.players[i].y > (this.mapSize - 1) * this.tileSize) {
-					this.players[i].y = (this.mapSize - 1) * this.tileSize;
+				} else if (this.players[i].y > this.mapObject.mapSize - 1) {
+					this.players[i].y = this.mapObject.mapSize - 1;
 					this.players[i].dir = "stop";
 				}
 			}
 		}
 	};
 
-	this.makeMap = function(mapSize, tileSize, playerSize) {
-		this.mapSize = mapSize;
-		this.tileSize = tileSize;
-		this.playerSize = playerSize;
-		this.map = [];
-
-		for (i = 0; i < mapSize; i++) {
-			this.map[i] = [];
-			for (j = 0; j < mapSize; j++) {
-				this.map[i][j] = {
-					x: i,
-					y: j,
-					id: 0,
-					color: "#3a4f56"
-				};
-			}
-		}
-	};
 
 	this.changeDir = function(player, newDir) {
 		if (player == null)

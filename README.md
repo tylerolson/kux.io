@@ -23,6 +23,7 @@ Clone the project and open index.html. If my server is up you can mindlessly mov
 * ~~Move in grid~~
 * ~~Add border~~
 * ~~Add map array~~
+* Optimize movement and map
 * Add trail
 * Add collisions
 * Fix zoom scaling

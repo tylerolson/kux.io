@@ -120,8 +120,7 @@ function play(serverName, playerName, playerColor) {
 	});
 
 	socket.on("connect_error", function() {
-		alert("Connection error! Server may be offline.");
-		location.reload();
+		console.log("Connection error! Server may be offline.");
 	});
 }
 

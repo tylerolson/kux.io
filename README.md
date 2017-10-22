@@ -23,8 +23,8 @@ Clone the project and open index.html. If my server is up you can mindlessly mov
 * ~~Move in grid~~
 * ~~Add border~~
 * ~~Add map array~~
-* Optimize movement and map
-* Add trail
+* Show a difference between land and trail
+* Claim land when connecting trail
 * Add collisions
 * Fix zoom scaling
 * Add abilities

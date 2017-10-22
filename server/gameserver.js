@@ -53,7 +53,8 @@ module.exports = function(map) {
 	};
 
 
-	this.changeDir = function(player, newDir) {
+	this.changeDir = function(id, newDir) {
+		var player = this.getPlayer(id);
 		if (player == null)
 			return;
 		if (newDir == "up" && player.dir == "down")
@@ -71,7 +72,20 @@ module.exports = function(map) {
 		this.players.push(player);
 	};
 
-	this.removePlayer = function(player) {
-		this.players.splice(this.players.indexOf(player), 1);
+	this.removePlayer = function(id) {
+		this.mapObject.clearPlayerLand(id);
+		for (i = 0; i < this.players.length; i++) {
+			if (this.players[i].id == id) {
+				this.players.splice(this.players[i], 1);
+			}
+		}
+	};
+
+	this.getPlayer = function(id) {
+		for (i = 0; i < this.players.length; i++) {
+			if (this.players[i].id == id) {
+				return this.players[i];
+			}
+		}
 	};
 };

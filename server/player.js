@@ -1,7 +1,7 @@
 function Player(name, color, id) {
-	this.name = name;
-	this.color = "#" + color;
 	this.id = id;
+	this.name = name;
+	this.color = color;
 	this.x = 0;
 	this.y = 0;
 	this.oldX = 0;

@@ -1,9 +1,12 @@
 var socket;
 
 var playing = false;
-var id;
-var ip;
+var GAMEID;
 var map = [];
+
+var localPlayer;
+
+var playerProperties;
 
 function playClicked() {
 	if (document.getElementById("name").value == "") {
@@ -28,13 +31,19 @@ function play(server) {
 
 	socket.emit("gameConnect", { //tell server youre connected with your preferences
 		name: document.getElementById("name").value,
-		color: document.getElementById("color").value
+		color: "#" + document.getElementById("color").value
 	});
 
 	socket.on("gameConnected", function(response) { //once connected set localplayer to server's player
 		console.log(response);
-		localPlayer = response.playerInstance;
-		id = response.playerInstance.id;
+		localPlayer = {
+			name: response.name,
+			color: response.color,
+			x: response.x,
+			y: response.y
+		};
+		GAMEID = response.id;
+
 		map = response.map;
 		mapSize = response.mapSize;
 		tileSize = response.tileSize;
@@ -42,11 +51,11 @@ function play(server) {
 		document.getElementById("title").remove();
 		document.getElementById("panel").remove();
 		playing = true;
-		console.log('Connected successfully to the server (' + response.playerInstance.name + " " + response.playerInstance.id + ")");
+		console.log('Connected successfully to the server (' + localPlayer.name + " " + GAMEID + ")");
 	});
 
 	socket.on("playerAdded", function(player) {
-		if (player.id == id)
+		if (player.id == GAMEID)
 			return;
 		for (i = 0; i < otherPlayers.length; i++) {
 			if (otherPlayers[i].id == player.id) {
@@ -56,17 +65,18 @@ function play(server) {
 		otherPlayers.push(player); //if not returned add player to otherplayers if its not yours
 	});
 
-	socket.on("playerRemoved", function(player) {
+	socket.on("playerRemoved", function(id) {
 		//no need to check for localplayer
 		for (i = 0; i < otherPlayers.length; i++) {
-			if (otherPlayers[i].id == player.id) {
+			if (otherPlayers[i].id == id) {
 				otherPlayers.splice(otherPlayers[i], 1);
 			}
 		}
+		console.log(localPlayer);
 	});
 
-	socket.on("updatePlayer", function(player) { //updatePlayers sent at 30hz
-		if (player.id == id) {
+	socket.on("updatePlayer", function(player) {
+		if (player.id == GAMEID) {
 			localPlayer.x = player.x;
 			localPlayer.y = player.y;
 		}
@@ -85,6 +95,9 @@ function play(server) {
 	});
 }
 
-function updateDir(dir) {
-	socket.emit("updateDir", dir);
+function updateDir(newDir) {
+	socket.emit("updateDir", {
+		GAMEID: GAMEID,
+		newDir: newDir
+	});
 }

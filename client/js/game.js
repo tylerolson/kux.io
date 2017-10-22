@@ -1,4 +1,3 @@
-var localPlayer;
 var otherPlayers = [];
 var map = [
 	[]

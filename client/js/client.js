@@ -3,10 +3,26 @@ var socket;
 var playing = false;
 var GAMEID;
 var map = [];
+var ip;
 
 var localPlayer;
 
 var playerProperties;
+
+if (getQueryVariable("server") != false) {
+	var tempName = getQueryVariable("name");
+	var tempColor = getQueryVariable("color");
+	if (tempName == false) {
+		tempName = "Player";
+	}
+	if (tempColor == false) {
+		tempColor = "#4286f4";
+	} else {
+		tempColor = "#" + tempColor;
+	}
+
+	play(getQueryVariable("server"), tempName, tempColor);
+}
 
 function playClicked() {
 	if (document.getElementById("name").value == "") {
@@ -15,23 +31,28 @@ function playClicked() {
 	}
 	document.getElementById("playButton").disabled = true;
 	if (!playing) {
-		play(document.getElementById("serverSelect").value);
+		play(document.getElementById("serverSelect").value, document.getElementById("name").value, "#" + document.getElementById("color").value);
 	}
 }
 
-function play(server) {
+function play(serverName, playerName, playerColor) {
 	for (i = 0; i < servers.length; i++) {
-		if (servers[i].name == server) {
+		if (servers[i].name == name) {
 			ip = "http://" + servers[i].ip + ":" + servers[i].port + "/";
 		}
 	}
+	if (ip == "") {
+		console.log("invalid server");
+		return;
+	}
+	console.log(playerName, playerColor);
 
 	console.log("Connecting to server");
 	socket = io.connect(ip);
 
 	socket.emit("gameConnect", { //tell server youre connected with your preferences
-		name: document.getElementById("name").value,
-		color: "#" + document.getElementById("color").value
+		name: playerName,
+		color: playerColor
 	});
 
 	socket.on("gameConnected", function(response) { //once connected set localplayer to server's player
@@ -93,6 +114,15 @@ function play(server) {
 			map[updateTiles[i].x][updateTiles[i].y] = updateTiles[i];
 		}
 	});
+
+	socket.on("connect_falied", function() {
+		console.log("Connection to server failed");
+	});
+
+	socket.on("connect_error", function() {
+		alert("Connection error! Server may be offline.");
+		location.reload();
+	});
 }
 
 function updateDir(newDir) {
@@ -100,4 +130,16 @@ function updateDir(newDir) {
 		GAMEID: GAMEID,
 		newDir: newDir
 	});
+}
+
+function getQueryVariable(variable) {
+	var query = window.location.search.substring(1);
+	var vars = query.split("&");
+	for (var i = 0; i < vars.length; i++) {
+		var pair = vars[i].split("=");
+		if (pair[0] == variable) {
+			return pair[1];
+		}
+	}
+	return (false);
 }

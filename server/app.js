@@ -2,13 +2,11 @@ const PORT = 27015;
 const express = require('express');
 const uuid = require('uuid/v4');
 const Player = require('./player.js');
-const GameMap = require('./gamemap.js');
 const GameServer = require('./gameserver.js');
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-var gameMap = new GameMap(50, 40, 30);
-var gameServer = new GameServer(gameMap);
+var gameServer = new GameServer(50, 40, 30);
 
 app.use(express.static('../client/'));
 http.listen(PORT, function() {
@@ -28,10 +26,10 @@ io.on('connection', function(client) { //when socket gets connection
 			color: properties.color,
 			x: tempPlayer.x,
 			y: tempPlayer.y,
-			map: gameMap.map,
-			mapSize: gameMap.mapSize,
-			tileSize: gameMap.tileSize,
-			innerTileSize: gameMap.innerTileSize
+			map: gameServer.gameMap.map,
+			mapSize: gameServer.gameMap.mapSize,
+			tileSize: gameServer.gameMap.tileSize,
+			innerTileSize: gameServer.gameMap.innerTileSize
 		});
 
 		for (i = 0; i < gameServer.players.length; i++) {
@@ -54,11 +52,11 @@ io.on('connection', function(client) { //when socket gets connection
 	client.on('disconnect', function() {
 		if (gameServer.getPlayer(client.GAMEID) != null) {
 			console.log('socket.io:: client ' + gameServer.getPlayer(client.GAMEID).name + " (" + client.GAMEID + ') disconnected');
+			gameServer.removePlayer(client.GAMEID);
 			io.emit("playerRemoved", client.GAMEID);
 		} else {
 			console.log('socket.io:: client ' + client.id + ' disconnected');
 		}
-		gameServer.removePlayer(client.GAMEID);
 	});
 });
 
@@ -74,8 +72,9 @@ function update() {
 				});
 			}
 		}
-		if (gameMap.updateTiles.length > 0) {
-			io.emit("updateTiles", gameMap.updateTiles);
+		if (gameServer.gameMap.updateTiles.length > 0) {
+			io.emit("updateTiles", gameServer.gameMap.updateTiles);
+			gameServer.gameMap.updateTiles = [];
 		}
 	}
 }

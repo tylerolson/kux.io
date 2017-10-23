@@ -19,14 +19,7 @@ module.exports = function(mapSize, tileSize, innerTileSize) {
 		for (i = 0; i < this.mapSize; i++) {
 			for (j = 0; j < this.mapSize; j++) {
 				if (this.map[i][j].id == id) {
-					this.map[i][j] = {
-						x: i,
-						y: j,
-						id: 0,
-						color: "#3a4f56"
-					};
-					console.log(this.map[i][j]);
-					this.updateTiles.push(this.map[i][j]);
+					this.setCellData(i, j, 0, "#3a4f56");
 				}
 			}
 		}

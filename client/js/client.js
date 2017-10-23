@@ -45,7 +45,6 @@ function play(serverName, playerName, playerColor) {
 		console.log("invalid server");
 		return;
 	}
-	console.log(playerName, playerColor);
 
 	console.log("Connecting to server");
 	socket = io.connect(ip);
@@ -56,7 +55,6 @@ function play(serverName, playerName, playerColor) {
 	});
 
 	socket.on("gameConnected", function(response) { //once connected set localplayer to server's player
-		console.log(response);
 		localPlayer = {
 			name: response.name,
 			color: response.color,
@@ -86,14 +84,13 @@ function play(serverName, playerName, playerColor) {
 		otherPlayers.push(player); //if not returned add player to otherplayers if its not yours
 	});
 
-	socket.on("playerRemoved", function(id) {
+	socket.on("playerRemoved", function(playerID) {
 		//no need to check for localplayer
 		for (i = 0; i < otherPlayers.length; i++) {
-			if (otherPlayers[i].id == id) {
+			if (otherPlayers[i].id == playerID) {
 				otherPlayers.splice(otherPlayers[i], 1);
 			}
 		}
-		console.log(localPlayer);
 	});
 
 	socket.on("updatePlayer", function(player) {

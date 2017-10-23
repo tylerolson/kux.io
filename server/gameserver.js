@@ -1,7 +1,9 @@
-module.exports = function(map) {
+const GameMap = require('./gamemap.js');
+
+module.exports = function(mapSize, tileSize, innerTileSize) {
 	this.speed = 0.25;
 	this.players = [];
-	this.mapObject = map;
+	this.gameMap = new GameMap(mapSize, tileSize, innerTileSize);
 
 	this.update = function() {
 		if (this.players != null) {
@@ -9,11 +11,10 @@ module.exports = function(map) {
 				this.players[i].oldX = this.players[i].x;
 				this.players[i].oldY = this.players[i].y;
 
-				this.mapObject.updateTiles = [];
 				if (this.players[i].x % 1 === 0 && this.players[i].y % 1 === 0) { //when in sqaure
 					this.players[i].dir = this.players[i].nextDir;
-					if (this.mapObject.map[this.players[i].x][this.players[i].y].id != this.players[i].id) {
-						this.mapObject.setCellData(this.players[i].x, this.players[i].y, this.players[i].id, this.players[i].color);
+					if (this.gameMap.map[this.players[i].x][this.players[i].y].id != this.players[i].id) {
+						this.gameMap.setCellData(this.players[i].x, this.players[i].y, this.players[i].id, this.players[i].color);
 					}
 				}
 
@@ -36,16 +37,16 @@ module.exports = function(map) {
 				if (this.players[i].x < 0) {
 					this.players[i].x = 0;
 					this.players[i].dir = "stop";
-				} else if (this.players[i].x > this.mapObject.mapSize - 1) {
-					this.players[i].x = this.mapObject.mapSize - 1;
+				} else if (this.players[i].x > this.gameMap.mapSize - 1) {
+					this.players[i].x = this.gameMap.mapSize - 1;
 					this.players[i].dir = "stop";
 				}
 
 				if (this.players[i].y < 0) {
 					this.players[i].y = 0;
 					this.players[i].dir = "stop";
-				} else if (this.players[i].y > this.mapObject.mapSize - 1) {
-					this.players[i].y = this.mapObject.mapSize - 1;
+				} else if (this.players[i].y > this.gameMap.mapSize - 1) {
+					this.players[i].y = this.gameMap.mapSize - 1;
 					this.players[i].dir = "stop";
 				}
 			}
@@ -73,12 +74,8 @@ module.exports = function(map) {
 	};
 
 	this.removePlayer = function(id) {
-		this.mapObject.clearPlayerLand(id);
-		for (i = 0; i < this.players.length; i++) {
-			if (this.players[i].id == id) {
-				this.players.splice(this.players[i], 1);
-			}
-		}
+		this.gameMap.clearPlayerLand(id);
+		this.players.splice(this.players.indexOf(this.getPlayer(id)), 1);
 	};
 
 	this.getPlayer = function(id) {

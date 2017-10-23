@@ -6,7 +6,7 @@ const GameServer = require('./gameserver.js');
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-var gameServer = new GameServer(50, 40, 30);
+var gameServer = new GameServer(50, 40, 30, 20);
 
 app.use(express.static('../client/'));
 http.listen(PORT, function() {
@@ -16,7 +16,7 @@ http.listen(PORT, function() {
 io.on('connection', function(client) { //when socket gets connection
 	client.on('gameConnect', function(properties) { //when game sends gameConnect
 		var tempID = uuid();
-		gameServer.addPlayer(new Player(properties.name, properties.color, tempID));
+		gameServer.addPlayer(new Player(properties.name, properties.color, tempID, Math.floor(Math.random() * gameServer.gameMap.mapSize), Math.floor(Math.random() * gameServer.gameMap.mapSize)));
 		var tempPlayer = gameServer.getPlayer(tempID);
 		client.GAMEID = tempID;
 
@@ -29,7 +29,8 @@ io.on('connection', function(client) { //when socket gets connection
 			map: gameServer.gameMap.map,
 			mapSize: gameServer.gameMap.mapSize,
 			tileSize: gameServer.gameMap.tileSize,
-			innerTileSize: gameServer.gameMap.innerTileSize
+			innerTileSize: gameServer.gameMap.innerTileSize,
+			trailTileSize: gameServer.gameMap.trailTileSize
 		});
 
 		for (i = 0; i < gameServer.players.length; i++) {

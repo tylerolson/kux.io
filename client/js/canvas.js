@@ -40,7 +40,11 @@ function drawMap() {
 	for (i = 0; i < mapSize; i++) {
 		for (j = 0; j < mapSize; j++) {
 			ctx.fillStyle = map[i][j].color;
-			ctx.fillRect(tileSize * i + (tileSize - innerTileSize) / 2, tileSize * j + (tileSize - innerTileSize) / 2, innerTileSize, innerTileSize);
+			if (map[i][j].type == "land") {
+				ctx.fillRect(tileSize * i + (tileSize - innerTileSize) / 2, tileSize * j + (tileSize - innerTileSize) / 2, innerTileSize, innerTileSize);
+			} else if (map[i][j].type == "trail") {
+				ctx.fillRect(tileSize * i + (tileSize - trailTileSize) / 2, tileSize * j + (tileSize - trailTileSize) / 2, trailTileSize, trailTileSize);
+			}
 		}
 	}
 

@@ -37,7 +37,7 @@ function playClicked() {
 
 function play(serverName, playerName, playerColor) {
 	for (i = 0; i < servers.length; i++) {
-		if (servers[i].name == name) {
+		if (servers[i].name == serverName) {
 			ip = "http://" + servers[i].ip + ":" + servers[i].port + "/";
 		}
 	}
@@ -67,6 +67,7 @@ function play(serverName, playerName, playerColor) {
 		mapSize = response.mapSize;
 		tileSize = response.tileSize;
 		innerTileSize = response.innerTileSize;
+		trailTileSize = response.trailTileSize;
 		document.getElementById("title").remove();
 		document.getElementById("panel").remove();
 		playing = true;

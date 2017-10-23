@@ -1,9 +1,9 @@
 const GameMap = require('./gamemap.js');
 
-module.exports = function(mapSize, tileSize, innerTileSize) {
+module.exports = function(mapSize, tileSize, innerTileSize, trailTileSize) {
 	this.speed = 0.25;
 	this.players = [];
-	this.gameMap = new GameMap(mapSize, tileSize, innerTileSize);
+	this.gameMap = new GameMap(mapSize, tileSize, innerTileSize, trailTileSize);
 
 	this.update = function() {
 		if (this.players != null) {
@@ -14,7 +14,7 @@ module.exports = function(mapSize, tileSize, innerTileSize) {
 				if (this.players[i].x % 1 === 0 && this.players[i].y % 1 === 0) { //when in sqaure
 					this.players[i].dir = this.players[i].nextDir;
 					if (this.gameMap.map[this.players[i].x][this.players[i].y].id != this.players[i].id) {
-						this.gameMap.setCellData(this.players[i].x, this.players[i].y, this.players[i].id, this.players[i].color);
+						this.gameMap.setCellData(this.players[i].x, this.players[i].y, this.players[i].id, this.players[i].color, "trail");
 					}
 				}
 
@@ -70,6 +70,7 @@ module.exports = function(mapSize, tileSize, innerTileSize) {
 	};
 
 	this.addPlayer = function(player) {
+		this.gameMap.addPlayerLand(player);
 		this.players.push(player);
 	};
 

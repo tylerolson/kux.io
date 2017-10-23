@@ -1,9 +1,9 @@
-function Player(name, color, id) {
+function Player(name, color, id, x, y) {
 	this.id = id;
 	this.name = name;
 	this.color = color;
-	this.x = 0;
-	this.y = 0;
+	this.x = x;
+	this.y = y;
 	this.oldX = 0;
 	this.oldY = 0;
 	this.dir = "stop";

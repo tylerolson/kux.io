@@ -7,7 +7,14 @@ A 2D snake-like RTS game.
 
 ## Usage
 
-Clone the project and open index.html. If my server is up you can mindlessly move around :P
+1. Connecting
+   - Connect via the [UI.](https://glarity.github.io/kux.io/client/)
+2. Clone
+   - Clone the project.
+   - Open `index.html`.
+   - If you want to host a server navigate to the server directory.
+   - Run `npm install`.
+   - Go [here](http://127.0.0.1:27015/).
 
 ## Contributing
 
@@ -23,7 +30,7 @@ Clone the project and open index.html. If my server is up you can mindlessly mov
 * ~~Move in grid~~
 * ~~Add border~~
 * ~~Add map array~~
-* Show a difference between land and trail
+* ~~Show a difference between land and trail~~
 * Claim land when connecting trail
 * Add collisions
 * Fix zoom scaling

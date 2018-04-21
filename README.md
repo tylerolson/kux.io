@@ -8,7 +8,12 @@ A 2D snake-like RTS game.
 ## Usage
 
 1. Connecting
-   - Connect via the [UI.](https://glarity.github.io/kux.io/client/)
+   - Via the [UI.](https://glarity.github.io/kux.io/client/)
+   - Via URL parameters.
+      - server
+      - name - defaults to Player
+      - color - defaults to #4286f4
+      - Example: https://glarity.github.io/kux.io/client/?server=local&name=hello&color=ffffff
 2. Clone
    - Clone the project.
    - Open `index.html`.
@@ -48,4 +53,4 @@ A 2D snake-like RTS game.
 
 ## License
 
-Kux.io is licened under the Apache License 2.0. See [LICENSE](https://github.com/Glarity/kux.io/blob/master/LICENSE)
+Kux.io is licensed under the Apache License 2.0. See [LICENSE](https://github.com/Glarity/kux.io/blob/master/LICENSE)

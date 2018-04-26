@@ -3,20 +3,22 @@ const express = require('express');
 const uuid = require('uuid/v4');
 const Player = require('./player.js');
 const GameServer = require('./gameserver.js');
+var gameServer = new GameServer(50, 40, 30, 20);
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-var gameServer = new GameServer(50, 40, 30, 20);
 
 app.use(express.static('../client/'));
 http.listen(PORT, function() {
 	console.log('socket.io:: Listening on port ' + PORT);
 });
 
+//while (gameServer == null) {}
+
 io.on('connection', function(client) { //when socket gets connection
 	client.on('gameConnect', function(properties) { //when game sends gameConnect
 		var tempID = uuid();
-		gameServer.addPlayer(new Player(properties.name, properties.color, tempID, Math.floor(Math.random() * gameServer.gameMap.mapSize), Math.floor(Math.random() * gameServer.gameMap.mapSize)));
+		gameServer.addPlayer(new Player(properties.name, properties.color, tempID, Math.floor(Math.random() * (gameServer.gameMap.mapSize - 5)), Math.floor(Math.random() * gameServer.gameMap.mapSize)));
 		var tempPlayer = gameServer.getPlayer(tempID);
 		client.GAMEID = tempID;
 
@@ -33,7 +35,7 @@ io.on('connection', function(client) { //when socket gets connection
 			trailTileSize: gameServer.gameMap.trailTileSize
 		});
 
-		for (i = 0; i < gameServer.players.length; i++) {
+		for (var i = 0; i < gameServer.players.length; i++) {
 			io.emit("playerAdded", {
 				id: gameServer.players[i].id,
 				name: gameServer.players[i].name,
@@ -64,7 +66,7 @@ io.on('connection', function(client) { //when socket gets connection
 function update() {
 	if (gameServer.players.length > 0) {
 		gameServer.update();
-		for (i = 0; i < gameServer.players.length; i++) {
+		for (var i = 0; i < gameServer.players.length; i++) {
 			if (gameServer.players[i].oldX != gameServer.players[i].x || gameServer.players[i].oldY != gameServer.players[i].y) {
 				io.emit("updatePlayer", {
 					id: gameServer.players[i].id,

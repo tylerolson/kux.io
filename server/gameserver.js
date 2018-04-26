@@ -1,4 +1,5 @@
 const GameMap = require('./gamemap.js');
+const FloodFill = require('./floodfill.js');
 
 module.exports = function(mapSize, tileSize, innerTileSize, trailTileSize) {
 	this.speed = 0.25;
@@ -7,7 +8,7 @@ module.exports = function(mapSize, tileSize, innerTileSize, trailTileSize) {
 
 	this.update = function() {
 		if (this.players != null) {
-			for (i = 0; i < this.players.length; i++) {
+			for (var i = 0; i < this.players.length; i++) {
 				this.players[i].oldX = this.players[i].x;
 				this.players[i].oldY = this.players[i].y;
 
@@ -15,6 +16,51 @@ module.exports = function(mapSize, tileSize, innerTileSize, trailTileSize) {
 					this.players[i].dir = this.players[i].nextDir;
 					if (this.gameMap.map[this.players[i].x][this.players[i].y].id != this.players[i].id) {
 						this.gameMap.setCellData(this.players[i].x, this.players[i].y, this.players[i].id, this.players[i].color, "trail");
+						this.players[i].trail.push(this.gameMap.map[this.players[i].x][this.players[i].y]);
+					} else {
+						if (this.gameMap.map[this.players[i].x][this.players[i].y].type == "land") {
+							if (this.players[i].trail.length > 0) {
+								for (var j = 0; j < this.players[i].trail.length; j++) {
+									this.gameMap.setCellData(this.players[i].trail[j].x, this.players[i].trail[j].y, this.players[i].id, this.players[i].color, "land");
+								}
+								this.players[i].trail = [];
+								var tempArray = [];
+
+								var tempMinX = this.gameMap.getMinMaxPlayerCoords(this.players[i].id).minX;
+								tempMinX -= 1;
+								var tempMaxX = this.gameMap.getMinMaxPlayerCoords(this.players[i].id).maxX;
+								tempMaxX += 1;
+								var tempMinY = this.gameMap.getMinMaxPlayerCoords(this.players[i].id).minY;
+								tempMinY -= 1;
+								var tempMaxY = this.gameMap.getMinMaxPlayerCoords(this.players[i].id).maxY;
+								tempMaxY += 1;
+								for (var k = tempMinX; k <= tempMaxX; k++) {
+									for (var l = tempMinY; l <= tempMaxY; l++) {
+										if (k > tempMinX && k < tempMaxX && l > tempMinY && l < tempMaxY) {
+											tempArray.push(this.gameMap.map[k][l]);
+										} else {
+											tempArray.push({ //add blank layer
+												x: k,
+												y: l,
+												id: 0,
+												color: "#666666",
+												type: "land"
+											});
+										}
+									}
+								}
+
+								console.log(tempArray.length);
+								console.log("X", tempMinX, tempMaxX, "Y", tempMinY, tempMaxY);
+								console.log("player coords", this.players[i].x, this.players[i].y);
+								var tempFloodFill = new FloodFill(tempArray, tempMinX, tempMaxX, tempMinY, tempMaxY, this.players[i].id);
+
+								for (var j = 0; j < tempFloodFill.length; j++) {
+									this.gameMap.setCellData(tempFloodFill[j].x, tempFloodFill[j].y, tempFloodFill[j].id, tempFloodFill[j].color, "land");
+								}
+								console.log("filled");
+							}
+						}
 					}
 				}
 
@@ -80,7 +126,7 @@ module.exports = function(mapSize, tileSize, innerTileSize, trailTileSize) {
 	};
 
 	this.getPlayer = function(id) {
-		for (i = 0; i < this.players.length; i++) {
+		for (var i = 0; i < this.players.length; i++) {
 			if (this.players[i].id == id) {
 				return this.players[i];
 			}

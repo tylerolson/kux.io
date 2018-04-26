@@ -8,6 +8,7 @@ function Player(name, color, id, x, y) {
 	this.oldY = 0;
 	this.dir = "stop";
 	this.nextDir = "stop";
+	this.trail = [];
 }
 
 module.exports = Player;

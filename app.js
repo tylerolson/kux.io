@@ -8,7 +8,7 @@ var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
-app.use(express.static('../client/'));
+app.use(express.static('client/'));
 http.listen(PORT, function() {
 	console.log('socket.io:: Listening on port ' + PORT);
 });

@@ -1,4 +1,4 @@
-const PORT = 27015;
+const PORT = process.env.PORT || 3000;
 const express = require('express');
 const uuid = require('uuid/v4');
 const Player = require('./player.js');

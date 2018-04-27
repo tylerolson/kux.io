@@ -1,12 +1,10 @@
 var servers = [{
 		"name": "Main",
-		"ip": window.location.hostname,
-		"port": ""
+		"ip": "https://" + window.location.hostname + "/",
 	},
 	{
 		"name": "Test",
-		"ip": "127.0.0.1",
-		"port": "27015"
+		"ip": "http://127.0.0.1:27015/"
 	}
 ];
 

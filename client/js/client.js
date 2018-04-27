@@ -39,9 +39,7 @@ function play(serverName, playerName, playerColor) {
 	for (i = 0; i < servers.length; i++) {
 		if (servers[i].name == serverName) {
 			if (servers[i].port != "") {
-				ip = "http://" + servers[i].ip + ":" + servers[i].port + "/";
-			} else {
-				ip = "http://" + servers[i].ip + "/";
+				ip = servers[i].ip;
 			}
 		}
 	}

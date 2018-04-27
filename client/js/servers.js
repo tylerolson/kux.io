@@ -1,15 +1,10 @@
 var servers = [{
-		"name": "PI",
-		"ip": "76.14.55.144",
-		"port": "25567"
+		"name": "Main",
+		"ip": window.location.hostname,
+		"port": ""
 	},
 	{
-		"name": "PC",
-		"ip": "76.14.55.144",
-		"port": "27015"
-	},
-	{
-		"name": "local",
+		"name": "Test",
 		"ip": "127.0.0.1",
 		"port": "27015"
 	}

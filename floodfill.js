@@ -7,14 +7,14 @@ module.exports = function(boundsArray, minX, maxX, minY, maxY, landId) {
 			return;
 		}
 
+		console.log(x, y);
+
 		for (var i = 0; i < boundsArray.length; i++) {
 			if (boundsArray[i].x == x && boundsArray[i].y == y) {
 				if (boundsArray[i].id == landId || boundsArray[i].id == -1) {
 					return;
 				} else {
-					console.log(boundsArray[i].x, boundsArray[i].y);
 					boundsArray[i].id = -1;
-					boundsArray[i].color = "#f4f142";
 				}
 			}
 		}
@@ -34,7 +34,6 @@ module.exports = function(boundsArray, minX, maxX, minY, maxY, landId) {
 			boundsArray[i].id = landId;
 		}
 		if (boundsArray[i].id != -1) {
-			boundsArray[i].color = "#00ff00";
 			inside.push(boundsArray[i]);
 		}
 	}
@@ -42,5 +41,5 @@ module.exports = function(boundsArray, minX, maxX, minY, maxY, landId) {
 	console.log("bounds", boundsArray.length);
 	console.log("inside", inside.length);
 
-	return boundsArray;
+	return inside;
 };

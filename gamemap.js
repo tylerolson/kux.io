@@ -1,3 +1,5 @@
+const FloodFill = require('./floodfill.js');
+
 module.exports = function(mapSize, tileSize, innerTileSize, trailTileSize) {
 	this.map = [];
 	this.updateTiles = [];
@@ -33,6 +35,46 @@ module.exports = function(mapSize, tileSize, innerTileSize, trailTileSize) {
 				this.setCellData(player.x + i, player.y + j, player.id, player.color, "land");
 			}
 		}
+	};
+
+	this.floodFill = function(player) {
+		var tempArray = [];
+
+		var tempMinX = this.getMinMaxPlayerCoords(player.id).minX;
+		tempMinX -= 1;
+		var tempMaxX = this.getMinMaxPlayerCoords(player.id).maxX;
+		tempMaxX += 1;
+		var tempMinY = this.getMinMaxPlayerCoords(player.id).minY;
+		tempMinY -= 1;
+		var tempMaxY = this.getMinMaxPlayerCoords(player.id).maxY;
+		tempMaxY += 1;
+		for (var k = tempMinX; k <= tempMaxX; k++) {
+			for (var l = tempMinY; l <= tempMaxY; l++) {
+				if (k > tempMinX && k < tempMaxX && l > tempMinY && l < tempMaxY) {
+					tempArray.push(this.map[k][l]);
+				} else {
+					tempArray.push({ //add blank layer
+						x: k,
+						y: l,
+						id: 0,
+						color: "#3a4f56",
+						type: "land"
+					});
+				}
+			}
+		}
+
+		console.log(tempArray.length);
+		console.log("X", tempMinX, tempMaxX, "Y", tempMinY, tempMaxY);
+		console.log("player coords", player.x, player.y);
+		var tempFloodFill = new FloodFill(tempArray, tempMinX, tempMaxX, tempMinY, tempMaxY, player.id);
+
+		for (var j = 0; j < tempFloodFill.length; j++) {
+			if (tempFloodFill[j].id == player.id) {
+				this.setCellData(tempFloodFill[j].x, tempFloodFill[j].y, tempFloodFill[j].id, player.color, "land");
+			}
+		}
+		console.log("filled");
 	};
 
 	this.getMinMaxPlayerCoords = function(id) {

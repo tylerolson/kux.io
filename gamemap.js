@@ -9,6 +9,9 @@ module.exports = function(mapSize, tileSize, innerTileSize, trailTileSize) {
 	this.trailTileSize = trailTileSize;
 
 	this.setCellData = function(x, y, id, color, type) {
+		while (this.map == null) {
+
+		}
 		this.map[x][y] = {
 			x: x,
 			y: y,
@@ -63,14 +66,19 @@ module.exports = function(mapSize, tileSize, innerTileSize, trailTileSize) {
 				}
 			}
 		}
-
 		var tempFloodFill = new FloodFill(tempArray, tempMinX, tempMaxX, tempMinY, tempMaxY, player.id);
 
 		for (var j = 0; j < tempFloodFill.length; j++) {
+			if (tempFloodFill[j].x < 0 || tempFloodFill[j].x >= mapSize || tempFloodFill[j].y < 0 || tempFloodFill[j].y >= mapSize) {
+				continue;
+			}
 			if (tempFloodFill[j].id == player.id) {
 				this.setCellData(tempFloodFill[j].x, tempFloodFill[j].y, tempFloodFill[j].id, player.color, "land");
+			} else {
+				this.setCellData(tempFloodFill[j].x, tempFloodFill[j].y, tempFloodFill[j].id, tempFloodFill[j].color, "land");
 			}
 		}
+
 	};
 
 	this.getMinMaxPlayerCoords = function(id) {

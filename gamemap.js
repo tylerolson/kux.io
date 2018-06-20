@@ -64,6 +64,8 @@ module.exports = function(mapSize, tileSize, innerTileSize, trailTileSize) {
 			}
 		}
 
+		console.log("Sending array", tempArray);
+
 		var tempFloodFill = new FloodFill(tempArray, tempMinX, tempMaxX, tempMinY, tempMaxY, player.id);
 
 		for (var j = 0; j < tempFloodFill.length; j++) {

@@ -7,8 +7,6 @@ module.exports = function(boundsArray, minX, maxX, minY, maxY, landId) {
 			return;
 		}
 
-		console.log(x, y);
-
 		for (var i = 0; i < boundsArray.length; i++) {
 			if (boundsArray[i].x == x && boundsArray[i].y == y) {
 				if (boundsArray[i].id == landId || boundsArray[i].id == -1) {
@@ -37,9 +35,6 @@ module.exports = function(boundsArray, minX, maxX, minY, maxY, landId) {
 			inside.push(boundsArray[i]);
 		}
 	}
-
-	console.log("bounds", boundsArray.length);
-	console.log("inside", inside.length);
 
 	return inside;
 };

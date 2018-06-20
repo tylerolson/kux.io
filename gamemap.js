@@ -64,9 +64,6 @@ module.exports = function(mapSize, tileSize, innerTileSize, trailTileSize) {
 			}
 		}
 
-		console.log(tempArray.length);
-		console.log("X", tempMinX, tempMaxX, "Y", tempMinY, tempMaxY);
-		console.log("player coords", player.x, player.y);
 		var tempFloodFill = new FloodFill(tempArray, tempMinX, tempMaxX, tempMinY, tempMaxY, player.id);
 
 		for (var j = 0; j < tempFloodFill.length; j++) {
@@ -74,7 +71,6 @@ module.exports = function(mapSize, tileSize, innerTileSize, trailTileSize) {
 				this.setCellData(tempFloodFill[j].x, tempFloodFill[j].y, tempFloodFill[j].id, player.color, "land");
 			}
 		}
-		console.log("filled");
 	};
 
 	this.getMinMaxPlayerCoords = function(id) {

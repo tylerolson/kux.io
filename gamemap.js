@@ -63,16 +63,17 @@ module.exports = function(mapSize, tileSize, innerTileSize, trailTileSize) {
 				}
 			}
 		}
-
-		console.log("Sending array", tempArray);
-
 		var tempFloodFill = new FloodFill(tempArray, tempMinX, tempMaxX, tempMinY, tempMaxY, player.id);
 
 		for (var j = 0; j < tempFloodFill.length; j++) {
 			if (tempFloodFill[j].id == player.id) {
 				this.setCellData(tempFloodFill[j].x, tempFloodFill[j].y, tempFloodFill[j].id, player.color, "land");
+			} else {
+				this.setCellData(tempFloodFill[j].x, tempFloodFill[j].y, tempFloodFill[j].id, tempFloodFill[j].color, "land");
 			}
 		}
+
+		console.log("Player cords", player.x, player.y);
 	};
 
 	this.getMinMaxPlayerCoords = function(id) {

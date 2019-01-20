@@ -1,6 +1,6 @@
 var servers = [{
 		"name": "Main",
-		"ip": "https://" + window.location.hostname + "/",
+		"ip": "https://kuxio.herokuapp.com/",
 	},
 	{
 		"name": "Test",
